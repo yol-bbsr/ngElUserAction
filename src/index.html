@@ -4,11 +4,59 @@
   <meta charset="utf-8">
   <title>NgElUserAction</title>
   <base href="./">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+      body {
+          margin: 0px;
+          padding: 0px;
+      }
+      .spinner {
+          margin: 100px auto 0;
+          width: 200px;
+          text-align: center;
+          font-size: 24px;
+          color: #1f11ab;
+      }
+      .spinner>div {
+          width: 18px;
+          height: 18px;
+          background-color: #1f11ab;
+
+          border-radius: 100%;
+          display: inline-block;
+          -webkit-animation: Initializing 1.4s infinite ease-in-out both;
+          animation: Initializing 1.4s infinite ease-in-out both;
+      }
+      .spinner .s1 {
+          -webkit-animation-delay: -0.32s;
+          animation-delay: -0.32s;
+      }
+      .spinner .s2 {
+          -webkit-animation-delay: -0.16s;
+          animation-delay: -0.16s;
+      }
+      @keyframes Initializing {
+          0%,
+          80%,
+          100% {
+              -webkit-transform: scale(0);
+              transform: scale(0);
+          }
+          40% {
+              -webkit-transform: scale(1.0);
+              transform: scale(1.0);
+          }
+      }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+      <div class="spinner">Initializing
+          <div class="s1"></div>
+          <div class="s2"></div>
+          <div class="s3"></div>
+      </div>
+  </app-root>
 </body>
 </html>

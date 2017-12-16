@@ -1,0 +1,38 @@
+/** Font styles - Roboto and Corbel
+ *  Roboto - Common font style across app
+ *  Corbel - Only for Header text
+ */
+@font-face {
+	font-family: RobotoRegular;
+	src: url('Roboto-Regular.ttf');
+}
+
+@font-face {
+	font-family: RobotoBold;
+	src: url('Roboto-Bold.ttf');
+}
+
+@font-face {
+	font-family: RobotoLight;
+	src: url('Roboto-Light.ttf');
+}
+
+html, body {
+	font-family: RobotoRegular;
+}
+
+.corbel {
+	font-family: corbel;
+}
+
+.txt-bold {
+	font-weight: bold;
+}
+
+.font-bold {
+	font-family: RobotoBold;
+}
+
+.font-light {
+	font-family: RobotoLight;
+}

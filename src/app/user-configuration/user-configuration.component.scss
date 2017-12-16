@@ -1,0 +1,30 @@
+.user-config-header{
+    font-size: 22px;
+    .text{
+        font-size: 22px;
+        margin-left: 5px;
+    }
+}
+.user-config-desc{
+    mat-chip{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        font-size: 22px;
+    }
+    .material-icons{
+        margin-right: 15px;
+    }
+}
+ 
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+    .mat-column-select {
+        overflow: visible;
+        max-width: 50px;
+    }
+    .mat-form-field{
+        width: 100px;
+    }
+}
+
