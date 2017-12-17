@@ -33,8 +33,7 @@ export class UserConfigurationComponent implements OnInit {
 
   // dataSource = new ExampleDataSource();
 
-  // isExpansionDetailRow = (_, row: DetailRow | UserData) => row.hasOwnProperty('detailRow');
-  // isExpansionDetailRow = (_, row: DetailRow|UserData) => row.hasOwnProperty('transaction');
+  // isExpansionDetailRow = (_, row) => row.hasOwnProperty('detailRow');
 
   constructor() { }
 
@@ -83,8 +82,6 @@ export class UserConfigurationComponent implements OnInit {
     this.panelOpenState = false;
     this.rePaint();
   }
-
-  toggleDetails(row) { if (row === this.expandedElement) { this.expandedElement = null; } else { this.expandedElement = row; } }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -140,3 +137,4 @@ export interface Step {
 // disconnect(); { }
 // }
 
+// TODO: https://plnkr.co/edit/rLtjjMOpEUe8owK8KI2M?p=preview

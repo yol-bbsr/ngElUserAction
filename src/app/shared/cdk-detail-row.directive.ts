@@ -1,4 +1,4 @@
-import {Directive, HostBinding, HostListener, Input, TemplateRef, ViewContainerRef} from '@angular/core';
+import { Directive, HostBinding, HostListener, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
 @Directive({
   selector: '[cdkDetailRow]'
@@ -31,9 +31,11 @@ export class CdkDetailRowDirective {
 
   constructor(public vcRef: ViewContainerRef) { }
 
-  @HostListener('click')
-  onClick(): void {
-    this.toggle();
+  @HostListener('click', ['$event'])
+  onClick(e): void {
+    if (e.srcElement.nodeName === 'MAT-CELL') {
+      this.toggle();
+    }
   }
 
   toggle(): void {
