@@ -26,5 +26,18 @@
     .mat-form-field{
         width: 100px;
     }
-}
 
+    .thread-group-row {
+        position: relative;
+        &.expanded {
+            border-bottom-color: transparent;
+        }
+        &:not(.expanded) {
+            cursor: pointer;
+        }
+    
+        &:not(.expanded):hover {
+            background: #f5f5f5;
+        }
+    }
+}

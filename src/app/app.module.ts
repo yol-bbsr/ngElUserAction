@@ -9,13 +9,15 @@ import { SharedModule } from './shared/shared.module';
 import { UserConfigurationComponent } from './user-configuration/user-configuration.component';
 import { ActivityGraphComponent } from './activity-graph/activity-graph.component';
 import { DragZoom2Component } from './d3-demo/drag-zoom-2.component';
+import { CdkDetailRowDirective } from './shared/cdk-detail-row.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserConfigurationComponent,
     ActivityGraphComponent,
-    DragZoom2Component
+    DragZoom2Component,
+    CdkDetailRowDirective
   ],
   imports: [
     BrowserModule,

@@ -3,22 +3,21 @@
     <mat-expansion-panel-header matTooltip="Expand to modify the configuration!">
       <mat-panel-title class="user-config-header">
         <i class="material-icons">perm_data_setting</i>
-        <span class="text">User Configuration</span>
+        <span class="text">Thread Groups</span>
       </mat-panel-title>
       <mat-panel-description>
         <mat-chip-list class="user-config-desc">
-          <mat-chip color="primary" selected="true">
+          <mat-chip color="primary" selected="true" matTooltip="Total Virtual Users">
             <i class="material-icons">people</i> {{totalvUsers}}</mat-chip>
-          <mat-chip color="primary" selected="true">
+          <mat-chip color="primary" selected="true" matTooltip="Total Duration">
             <i class="material-icons">schedule</i> {{exeDuration}}</mat-chip>
-          <mat-chip color="primary" selected="true">
+          <mat-chip color="primary" selected="true" matTooltip="Total Completed Iterations">
             <i class="material-icons">repeat</i> {{iteration}}</mat-chip>
         </mat-chip-list>
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="mat-elevation-z1">
       <mat-table #table [dataSource]="dataSource">
-        <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <mat-header-cell *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
@@ -30,53 +29,60 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="THREADS">
-          <mat-header-cell *matHeaderCellDef> Start Threads Count </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> # of Threads (users) </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input type="number" matInput placeholder="Start Threads Count" [(ngModel)]="element.threads">
+              <input type="number" matInput [(ngModel)]="element.threads">
             </mat-form-field>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="DELAY">
-          <mat-header-cell *matHeaderCellDef> Initial Delay (sec) </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> startup Delay (sec) </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input type="number" min="0" matInput placeholder="Initial Delay" [(ngModel)]="element.delay">
+              <input type="number" min="0" matInput [(ngModel)]="element.delay">
               <span matSuffix>sec</span>
             </mat-form-field>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="START">
-          <mat-header-cell *matHeaderCellDef> Startup Time (sec) </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Ramp-Up (sec) </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input type="number" min="0" matInput placeholder="Startup Time" [(ngModel)]="element.startup">
+              <input type="number" min="0" matInput [(ngModel)]="element.startup">
               <span matSuffix>sec</span>
             </mat-form-field>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="HOLD">
-          <mat-header-cell *matHeaderCellDef> Hold Load For (sec) </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Durarion (sec) </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input type="number" min="0" matInput placeholder="Hold Load For" [(ngModel)]="element.hold">
+              <input type="number" min="0" matInput [(ngModel)]="element.hold">
               <span matSuffix>sec</span>
             </mat-form-field>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="SHUTDOWN">
-          <mat-header-cell *matHeaderCellDef> Shutdown Time (sec) </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Ramp-Down (sec) </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input type="number" min="0" matInput placeholder="Shutdown Time" [(ngModel)]="element.shutdown">
+              <input type="number" min="0" matInput [(ngModel)]="element.shutdown">
               <span matSuffix>sec</span>
             </mat-form-field>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple
+          class="thread-group-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl"></mat-row>
       </mat-table>
     </div>
+
+    <ng-template #tpl let-element>
+      <div class="mat-row" [@detailExpand] style="overflow: hidden">
+        <ul><li *ngFor="let step of element.transaction">{{step.name}}</li></ul>
+      </div>
+    </ng-template>
 
     <mat-action-row fxLayout="row" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" (click)="onAddScenatio()">
