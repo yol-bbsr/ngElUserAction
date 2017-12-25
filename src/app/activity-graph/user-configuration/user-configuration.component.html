@@ -1,20 +1,10 @@
 <mat-accordion>
   <mat-expansion-panel [expanded]="panelOpenState === true" (opened)="panelOpenState = true">
-    <mat-expansion-panel-header>
-      <mat-panel-title class="user-config-header" matTooltip="Expand to modify the configuration!">
+    <mat-expansion-panel-header matTooltip="Expand to modify the configuration!">
+      <mat-panel-title class="user-config-header">
         <i class="material-icons">perm_data_setting</i>
         <span class="text">Thread Groups</span>
       </mat-panel-title>
-      <mat-panel-description>
-        <mat-chip-list class="user-config-desc">
-          <mat-chip color="primary" selected="true" matTooltip="Total Virtual Users">
-            <i class="material-icons">people</i> {{totalvUsers}}</mat-chip>
-          <mat-chip color="primary" selected="true" matTooltip="Total Duration">
-            <i class="material-icons">schedule</i> {{exeDuration}}</mat-chip>
-          <mat-chip color="primary" selected="true" matTooltip="Total Completed Iterations">
-            <i class="material-icons">repeat</i> {{iteration}}</mat-chip>
-        </mat-chip-list>
-      </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="mat-elevation-z1">
       <mat-table #table [dataSource]="dataSource">
@@ -78,26 +68,48 @@
     </div>
 
     <ng-template #tpl let-element>
-      <div class="mat-row" [@detailExpand] class="step-detail">
-        <div *ngFor="let step of element.transaction" class="steps">
-          {{step.name}}
-          <mat-form-field>
-            <input type="text" placeholder="Name" matInput [(ngModel)]="step.name">
-          </mat-form-field>
-          <mat-form-field>
-            <input type="number" min="0" placeholder="Response Time" matInput [(ngModel)]="step.duration">
-            <span matSuffix>sec</span>
-          </mat-form-field>
-          <mat-form-field>
-              <input type="number" min="0" placeholder="Think Time" matInput [(ngModel)]="step.  prevStepID">
-              <span matSuffix>sec</span>
-            </mat-form-field>
+      <div class="scenario-container" [@detailExpand] fxLayout="row" fxLayoutGap="30px" fxLayout.xs="column" fxLayoutGap.xs="0px">
+        <mat-form-field class="scenario-name">
+          <input type="text" placeholder="Scenaio Name" matInput [(ngModel)]="element.scenario.name">
+        </mat-form-field>
+        <mat-form-field class="pacing">
+          <input type="number" min="0" placeholder="Pacing Time" matInput [(ngModel)]="element.scenario.pacing">
+          <span matSuffix>sec</span>
+        </mat-form-field>
+      </div>
+      <div class="mat-row steps" [@detailExpand] fxLayout="column" fxLayoutGap="20px" [dragula]='"scenarios"' [dragulaModel]='element.scenario.steps'>
+        <div *ngFor="let step of element.scenario.steps; let i = index;" class="step-container" fxLayout="row" fxLayoutGap="10px"
+          fxLayout.xs="column" fxLayoutGap.xs="0px">
+          <div fxFlex="90">
+            <div class="step-from" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center" fxLayoutWrap>
+              <mat-form-field class="step-name">
+                <input type="text" placeholder="Step Name" matInput [(ngModel)]="step.name">
+              </mat-form-field>
+              <mat-form-field class="step-rt">
+                <input type="number" min="0" placeholder="Response Time" matInput [(ngModel)]="step.responseTime">
+                <span matSuffix>sec</span>
+              </mat-form-field>
+              <mat-form-field class="step-tt">
+                <input type="number" min="0" placeholder="Think Time" matInput [(ngModel)]="step.thinkTime">
+                <span matSuffix>sec</span>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxFlex="10" fxLayout="column" fxLayoutGap="0px" fxLayoutAlign="space-between end">
+            <button mat-raised-button color="primary" (click)="onAddStep(element, i)">
+              <mat-icon>add</mat-icon>
+            </button>
+            <span fxFlex="1"></span>
+            <button mat-raised-button color="warn" (click)="onRemoveStep(element, i)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
     </ng-template>
 
     <mat-action-row fxLayout="row" fxLayoutAlign="end center">
-      <button mat-raised-button color="primary" (click)="onAddScenatio()">
+      <button mat-raised-button color="primary" (click)="onAddScenario()">
         <mat-icon>playlist_add</mat-icon> Add Scenario</button>
       <span fxFlex="1"></span>
       <button mat-raised-button color="warn" (click)="onDeleteScenario()">
@@ -108,6 +120,14 @@
 </mat-accordion>
 <mat-toolbar>
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="end center">
+    <mat-chip-list class="user-config-desc">
+      <mat-chip color="primary" selected="true" matTooltip="Total Virtual Users">
+        <i class="material-icons">people</i> {{totalvUsers}}</mat-chip>
+      <mat-chip color="primary" selected="true" matTooltip="Total Duration">
+        <i class="material-icons">schedule</i> {{exeDuration}}</mat-chip>
+      <mat-chip color="primary" selected="true" matTooltip="Total Completed Iterations">
+        <i class="material-icons">repeat</i> {{iteration}}</mat-chip>
+    </mat-chip-list><span fxFlex></span>
     <button mat-raised-button color="primary" (click)="onSimulate()">
       <mat-icon>playlist_play</mat-icon> Simulate</button>
   </mat-toolbar-row>

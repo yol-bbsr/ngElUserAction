@@ -1,0 +1,93 @@
+.user-config-header{
+    font-size: 22px;
+    .text{
+        font-size: 22px;
+        margin-left: 5px;
+    }
+}
+.user-config-desc{
+    mat-chip{
+        padding-top: 0px;
+        padding-bottom: 0px;
+        font-size: 22px;
+    }
+    .material-icons{
+        margin-right: 15px;
+    }
+}
+ 
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+    .mat-column-select {
+        overflow: visible;
+        max-width: 50px;
+    }
+    .mat-form-field{
+        width: 100px;
+    }
+
+    .thread-group-row {
+        position: relative;
+        &.expanded {
+            border-bottom-color: transparent;
+        }
+        &:not(.expanded) {
+            cursor: pointer;
+        }
+    
+        &:not(.expanded):hover {
+            background: #f5f5f5;
+        }
+    }
+}
+.scenario-container{
+    overflow: hidden;
+    padding: 15px 5%;
+    background-color: beige;
+    width: 100%;
+    .pacing{
+        width: 80px;
+    }
+    .scenario-name{
+        width: 300px;
+    }
+}
+.steps {
+    overflow: hidden;
+    padding: 15px 5%;
+    background-color: beige;
+    .step-container{
+        width: 100%;
+        position: relative;
+        border: solid 1px #673ab7;
+        &:after{
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 0px solid transparent;
+            border-top: 20px solid #673ab7;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            display: block;
+        }
+        &:last-child:after{
+            border-top: 0px solid transparent;
+        }
+        .step-name{
+            width: 300px;
+        }
+        .step-rt{
+            width: 95px;
+        }
+        .step-tt{
+            width: 75px;
+        }
+        .step-from{
+            margin-top: 10px;
+        }
+    }    
+}
