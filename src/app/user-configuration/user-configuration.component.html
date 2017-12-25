@@ -1,7 +1,7 @@
 <mat-accordion>
   <mat-expansion-panel [expanded]="panelOpenState === true" (opened)="panelOpenState = true">
-    <mat-expansion-panel-header matTooltip="Expand to modify the configuration!">
-      <mat-panel-title class="user-config-header">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="user-config-header" matTooltip="Expand to modify the configuration!">
         <i class="material-icons">perm_data_setting</i>
         <span class="text">Thread Groups</span>
       </mat-panel-title>
@@ -73,14 +73,26 @@
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple
-          class="thread-group-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="thread-group-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl"></mat-row>
       </mat-table>
     </div>
 
     <ng-template #tpl let-element>
-      <div class="mat-row" [@detailExpand] style="overflow: hidden">
-        <ul><li *ngFor="let step of element.transaction">{{step.name}}</li></ul>
+      <div class="mat-row" [@detailExpand] class="step-detail">
+        <div *ngFor="let step of element.transaction" class="steps">
+          {{step.name}}
+          <mat-form-field>
+            <input type="text" placeholder="Name" matInput [(ngModel)]="step.name">
+          </mat-form-field>
+          <mat-form-field>
+            <input type="number" min="0" placeholder="Response Time" matInput [(ngModel)]="step.duration">
+            <span matSuffix>sec</span>
+          </mat-form-field>
+          <mat-form-field>
+              <input type="number" min="0" placeholder="Think Time" matInput [(ngModel)]="step.  prevStepID">
+              <span matSuffix>sec</span>
+            </mat-form-field>
+        </div>
       </div>
     </ng-template>
 
