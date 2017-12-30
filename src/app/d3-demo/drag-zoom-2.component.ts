@@ -18,8 +18,8 @@ import { phyllotaxis, PhyllotaxisPoint } from '../shared';
 })
 export class DragZoom2Component implements OnInit, OnChanges, OnDestroy {
 
-  @Input() width: number = 200;
-  @Input() height: number = 200;
+  @Input() width: number = 1040;
+  @Input() height: number = 400;
   @Input() phylloRadius: number = 7;
   @Input() pointRadius: number = 2;
 

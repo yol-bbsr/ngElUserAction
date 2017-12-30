@@ -23,7 +23,7 @@ import { getDataset } from './user-configuration.functions';
   ],
 })
 export class UserConfigurationComponent implements OnInit {
-  panelOpenState = true;
+  panelOpenState = false;
   expandedElement: any;
 
   @Output() simulateEvent = new EventEmitter<TransactionDetails>();
@@ -47,11 +47,12 @@ export class UserConfigurationComponent implements OnInit {
     this.threadGroups = [];
     this.threadGroups.push({ threads: 12, delay: 0, startup: 900, hold: 1800, shutdown: 900, scenario: this.defaultScenario() });
     this.rePaint();
+    this.simulateEvent.emit(this.transactionDetails);
   }
 
   defaultScenario() {
     const transaction: Step[] = [];
-    transaction.push({ name: 'Step 1', responseTime: 5, thinkTime: 10 });
+    transaction.push({ name: 'Step 1', responseTime: 690, thinkTime: 10 });
     const scenario: Scenario = { name: 'Scenario ' + (this.threadGroups.length + 1), responseTime: 700, pacing: 200, steps: transaction };
     return scenario;
   }
