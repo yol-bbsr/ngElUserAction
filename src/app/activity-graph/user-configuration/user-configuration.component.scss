@@ -21,12 +21,14 @@
     max-height: 500px;
     .mat-column-select {
         overflow: visible;
-        max-width: 50px;
+        max-width: 40px;
     }
     .mat-form-field{
         width: 100px;
     }
-
+    .mat-column-EXPAND {
+        max-width: 40px;
+    }
     .thread-group-row {
         position: relative;
         &.expanded {

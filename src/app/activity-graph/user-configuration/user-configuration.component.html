@@ -62,6 +62,14 @@
             </mat-form-field>
           </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="EXPAND">
+          <mat-header-cell *matHeaderCellDef> &nbsp; </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-icon-button title="expand">
+              <mat-icon title="expand" class="expand">keyboard_arrow_down</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="thread-group-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl"></mat-row>
       </mat-table>
@@ -127,7 +135,8 @@
         <i class="material-icons">schedule</i> {{exeDuration}}</mat-chip>
       <mat-chip color="primary" selected="true" matTooltip="Total Completed Iterations">
         <i class="material-icons">repeat</i> {{iteration}}</mat-chip>
-    </mat-chip-list><span fxFlex></span>
+    </mat-chip-list>
+    <span fxFlex></span>
     <button mat-raised-button color="primary" (click)="onSimulate()">
       <mat-icon>playlist_play</mat-icon> Simulate</button>
   </mat-toolbar-row>

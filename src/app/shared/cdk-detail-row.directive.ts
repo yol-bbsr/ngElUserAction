@@ -33,16 +33,18 @@ export class CdkDetailRowDirective {
 
   @HostListener('click', ['$event'])
   onClick(e): void {
-    if (e.srcElement.nodeName === 'MAT-CELL') {
-      this.toggle();
+    if (e.srcElement.title === 'expand') {
+      this.toggle(e.srcElement);
     }
   }
 
-  toggle(): void {
+  toggle(ele: any): void {
     if (this.opened) {
       this.vcRef.clear();
+      ele.setAttribute('style', 'transform: rotate(0deg);transform-origin: center; transition: transform .5s;');
     } else {
       this.render();
+      ele.setAttribute('style', 'transform: rotate(-180deg);transform-origin: center; transition: transform .5s;');
     }
     this.opened = this.vcRef.length > 0;
   }

@@ -32,7 +32,7 @@ export class UserConfigurationComponent implements OnInit {
   exeDuration: string;
   iteration: number;
 
-  displayedColumns = ['select', 'THREADS', 'DELAY', 'START', 'HOLD', 'SHUTDOWN'];
+  displayedColumns = ['select', 'THREADS', 'DELAY', 'START', 'HOLD', 'SHUTDOWN', 'EXPAND'];
   threadGroups: ThreadGroup[];
   dataSource: MatTableDataSource<ThreadGroup>;
   selection: SelectionModel<ThreadGroup>;
