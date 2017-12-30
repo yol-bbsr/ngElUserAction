@@ -23,7 +23,7 @@ import { getDataset } from './user-configuration.functions';
   ],
 })
 export class UserConfigurationComponent implements OnInit {
-  panelOpenState = false;
+  panelOpenState = true;
   expandedElement: any;
 
   @Output() simulateEvent = new EventEmitter<TransactionDetails>();
@@ -37,8 +37,6 @@ export class UserConfigurationComponent implements OnInit {
   dataSource: MatTableDataSource<ThreadGroup>;
   selection: SelectionModel<ThreadGroup>;
 
-  // dataSource = new ExampleDataSource();
-
   constructor(private dragula: DragulaService, public snackBar: MatSnackBar) {
     this.dragula.setOptions('Steps-bag', { revertOnSpill: true });
   }
@@ -46,6 +44,8 @@ export class UserConfigurationComponent implements OnInit {
   ngOnInit() {
     this.threadGroups = [];
     this.threadGroups.push({ threads: 12, delay: 0, startup: 900, hold: 1800, shutdown: 900, scenario: this.defaultScenario() });
+    this.dataSource = new MatTableDataSource<ThreadGroup>();
+    this.selection = new SelectionModel<ThreadGroup>(true, []);
     this.rePaint();
     this.simulateEvent.emit(this.transactionDetails);
   }
@@ -58,8 +58,8 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   rePaint() {
-    this.dataSource = new MatTableDataSource<ThreadGroup>(this.threadGroups);
-    this.selection = new SelectionModel<ThreadGroup>(true, []);
+    this.dataSource.data = this.threadGroups;
+    this.selection.clear();
     // calculate the total values for display
     this.transactionDetails = getDataset(this.threadGroups);
     this.totalvUsers = this.transactionDetails.totalVusers;
@@ -73,9 +73,7 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   onDeleteScenario() {
-    this.selection.selected.forEach(element => {
-      this.threadGroups = this.threadGroups.filter(item => item !== element);
-    });
+    this.selection.selected.forEach(element => this.threadGroups = this.threadGroups.filter(item => item !== element));
     this.rePaint();
   }
 
@@ -83,12 +81,11 @@ export class UserConfigurationComponent implements OnInit {
     const newStep = { name: 'Step ' + (element.scenario.steps.length + 1), responseTime: 5, thinkTime: 5 };
     element.scenario.steps.splice(index + 1, 0, newStep);
     this.snackBar.open('Step added successfully!', 'Okay', { duration: 10000, });
-    console.log(element);
   }
 
   onRemoveStep(element, index: number) {
     if (element.scenario.steps.length === 1) {
-      this.snackBar.open('Atleast one step required!', 'Okay', { duration: 10000, });
+      this.snackBar.open('Step not removed. Atleast one required!', 'Okay', { duration: 10000, panelClass: 'warning'});
       return;
     }
     // show confirmation dialog
@@ -116,22 +113,3 @@ export class UserConfigurationComponent implements OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 }
-
-/**
- * Data source to provide what data should be rendered in the table. The observable provided
- * in connect should emit exactly the data that should be rendered by the table. If the data is
- * altered, the observable should emit that new set of data on the stream. In our case here,
- * we return a stream that contains only one set of data that doesn't change.
-* /
-// export class ExampleDataSource extends DataSource<any> {
-//   /** Connect function called by the table to retrieve one stream containing the data to render. */
-// connect(): Observable < Element[] > {
-//   const rows = [];
-//   data.forEach(element => rows.push(element, { detailRow: true, element }));
-//   return Observable.of(rows);
-// };
-
-// disconnect(); { }
-// }
-
-// TODO: https://plnkr.co/edit/rLtjjMOpEUe8owK8KI2M?p=preview
