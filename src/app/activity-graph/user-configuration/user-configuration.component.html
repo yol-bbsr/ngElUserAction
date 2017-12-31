@@ -118,13 +118,14 @@
 
     <mat-action-row fxLayout="row" fxLayoutAlign="end center">
       <button mat-raised-button color="primary" (click)="onAddScenario()">
-        <mat-icon>playlist_add</mat-icon> Add Scenario</button>
+        <mat-icon>playlist_add</mat-icon> Add Scenario
+      </button>
       <span fxFlex="1"></span>
       <button mat-raised-button color="warn" (click)="onDeleteScenario()">
-        <mat-icon>delete</mat-icon> Remove Scenario</button>
+        <mat-icon>delete</mat-icon> Remove Scenario
+      </button>
     </mat-action-row>
   </mat-expansion-panel>
-
 </mat-accordion>
 <mat-toolbar>
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="end center">
@@ -137,7 +138,11 @@
         <i class="material-icons">repeat</i> {{iteration}}</mat-chip>
     </mat-chip-list>
     <span fxFlex></span>
+    <button mat-icon-button (click)="onPreference()">
+      <mat-icon>settings</mat-icon>
+    </button>
     <button mat-raised-button color="primary" (click)="onSimulate()">
-      <mat-icon>playlist_play</mat-icon> Simulate</button>
+      <mat-icon>playlist_play</mat-icon> Simulate
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>

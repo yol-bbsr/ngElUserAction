@@ -35,4 +35,15 @@ export interface TransactionDetails {
     totalDuration: string;
     totalIteration: number;
     activites: Activity[];
+    setpActivities?: Activity[];
+}
+
+export interface GraphEventData {
+    data: TransactionDetails;
+    settings: GraphSettings;
+}
+
+export interface GraphSettings {
+    isSimulateSteps: boolean;
+    isOpenConfigPanel: boolean;
 }

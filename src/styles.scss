@@ -2,46 +2,46 @@
 // @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 // @import '~@angular/material/prebuilt-themes/purple-green.css';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
 // material icon
 @import '~material-design-icons/iconfont/material-icons.css';
-
 // ng2-dragula
 @import '~dragula/dist/dragula.css';
-
-
-/* style for visavail.js */
-.rect_has_data {
-    /* blocks that have data */
+.transaction {
     fill: transparent;
-	stroke: #5cb85c;
-	stroke-width: 1px;
+    stroke: #5cb85c;
+    stroke-width: 1px;
+    &:hover {
+        fill: transparent;
+        stroke: #449d44;
+        stroke-width: 1px;
+    }
 }
 
-.rect_has_data:hover {
-    fill: transparent;
-	stroke: #449d44;
-	stroke-width: 1px;
-}
-
-.rect_has_no_data {
-    /* blocks without data */
+.pacing {
     fill: #d9534d;
+    &:hover {
+        fill: #c9302c;
+    }
 }
 
-.rect_has_no_data:hover {
-    fill: #c9302c;
+.thinktime {
+    fill: transparent;
+    stroke: #3702f7;
+    stroke-width: 1px;
+    &:hover {
+        fill: transparent;
+        stroke: #977ef1;
+        stroke-width: 1px;
+    }
 }
 
-.tooltip_has_data {
-    /* color of symbol in tooltip if there is data */
+.tooltip_transaction {
     color: #449d44;
     line-height: 16px;
     vertical-align: middle;
 }
 
-.tooltip_has_no_data {
-    /* color of symbol in tooltip if there is no data */
+.tooltip_pacing {
     color: #c9302c;
     line-height: 16px;
     vertical-align: middle;
@@ -68,29 +68,28 @@ div.tooltip {
 }
 
 .ytitle {
-    /* y axis labels */
     dominant-baseline: middle;
     font-family: "Muli", "Helvetica", Arial, sans-serif;
     -moz-osx-font-smoothing: grayscale;
     font-size: 12px;
+    &.link {
+        /* y axis label with link */
+        cursor: pointer;
+        fill: #07C;
+    }
 }
 
-.ytitle.link {
-    /* y axis label with link */
-    cursor: pointer;
-    fill: #07C;
-}
-
-.axis path,
-.axis line {
-    display: none;
-}
-
-.axis text {
-    font-size: 12px;
-    font-family: "Muli", "Helvetica", Arial, sans-serif;
-    -moz-osx-font-smoothing: grayscale;
-    fill: #777;
+.axis {
+    path,
+    line {
+        display: none;
+    }
+    text {
+        font-size: 12px;
+        font-family: "Muli", "Helvetica", Arial, sans-serif;
+        -moz-osx-font-smoothing: grayscale;
+        fill: #777;
+    }
 }
 
 .vert_grid {
@@ -132,4 +131,7 @@ div.tooltip {
     -moz-osx-font-smoothing: grayscale;
     fill: #777;
 }
-.warning{color: deeppink;}
+
+.warning {
+    color: deeppink;
+}

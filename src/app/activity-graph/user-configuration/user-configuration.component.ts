@@ -1,14 +1,15 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { SelectionModel, DataSource } from '@angular/cdk/collections';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import { ThreadGroup, Scenario, Step, TransactionDetails } from './user-configuration.model';
+import { ThreadGroup, Scenario, Step, TransactionDetails, GraphEventData, GraphSettings } from './user-configuration.model';
 import { getDataset } from './user-configuration.functions';
+import { GraphSettingsComponent } from '../graph-settings/graph-settings.component';
 
 @Component({
   selector: 'app-user-configuration',
@@ -23,10 +24,11 @@ import { getDataset } from './user-configuration.functions';
   ],
 })
 export class UserConfigurationComponent implements OnInit {
+  graphSettings: GraphSettings;
   panelOpenState = true;
   expandedElement: any;
 
-  @Output() simulateEvent = new EventEmitter<TransactionDetails>();
+  @Output() simulateEvent = new EventEmitter<GraphEventData>();
   transactionDetails: TransactionDetails;
   totalvUsers: number;
   exeDuration: string;
@@ -37,22 +39,27 @@ export class UserConfigurationComponent implements OnInit {
   dataSource: MatTableDataSource<ThreadGroup>;
   selection: SelectionModel<ThreadGroup>;
 
-  constructor(private dragula: DragulaService, public snackBar: MatSnackBar) {
+  constructor(private dragula: DragulaService, public snackBar: MatSnackBar, public dialog: MatDialog) {
     this.dragula.setOptions('Steps-bag', { revertOnSpill: true });
   }
 
   ngOnInit() {
+    this.graphSettings = { isOpenConfigPanel: true, isSimulateSteps: false };
     this.threadGroups = [];
     this.threadGroups.push({ threads: 12, delay: 0, startup: 900, hold: 1800, shutdown: 900, scenario: this.defaultScenario() });
     this.dataSource = new MatTableDataSource<ThreadGroup>();
     this.selection = new SelectionModel<ThreadGroup>(true, []);
-    this.rePaint();
-    this.simulateEvent.emit(this.transactionDetails);
+    this.onSimulate();
   }
 
   defaultScenario() {
     const transaction: Step[] = [];
-    transaction.push({ name: 'Step 1', responseTime: 690, thinkTime: 10 });
+    transaction.push({ name: 'Step 1', responseTime: 100, thinkTime: 10 });
+    transaction.push({ name: 'Step 2', responseTime: 100, thinkTime: 10 });
+    transaction.push({ name: 'Step 3', responseTime: 100, thinkTime: 10 });
+    transaction.push({ name: 'Step 4', responseTime: 100, thinkTime: 10 });
+    transaction.push({ name: 'Step 5', responseTime: 100, thinkTime: 10 });
+    transaction.push({ name: 'Step 6', responseTime: 100, thinkTime: 10 });
     const scenario: Scenario = { name: 'Scenario ' + (this.threadGroups.length + 1), responseTime: 700, pacing: 200, steps: transaction };
     return scenario;
   }
@@ -61,7 +68,7 @@ export class UserConfigurationComponent implements OnInit {
     this.dataSource.data = this.threadGroups;
     this.selection.clear();
     // calculate the total values for display
-    this.transactionDetails = getDataset(this.threadGroups);
+    this.transactionDetails = getDataset(this.threadGroups, this.graphSettings);
     this.totalvUsers = this.transactionDetails.totalVusers;
     this.exeDuration = this.transactionDetails.totalDuration;
     this.iteration = this.transactionDetails.totalIteration;
@@ -85,7 +92,7 @@ export class UserConfigurationComponent implements OnInit {
 
   onRemoveStep(element, index: number) {
     if (element.scenario.steps.length === 1) {
-      this.snackBar.open('Step not removed. Atleast one required!', 'Okay', { duration: 10000, panelClass: 'warning'});
+      this.snackBar.open('Step not removed. Atleast one required!', 'Okay', { duration: 10000, panelClass: 'warning' });
       return;
     }
     // show confirmation dialog
@@ -94,9 +101,9 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   onSimulate() {
-    this.panelOpenState = false;
+    this.panelOpenState = this.graphSettings.isOpenConfigPanel;
     this.rePaint();
-    this.simulateEvent.emit(this.transactionDetails);
+    this.simulateEvent.emit({ data: this.transactionDetails, settings: this.graphSettings });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -111,5 +118,10 @@ export class UserConfigurationComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  onPreference(): void {
+    const dialogRef = this.dialog.open(GraphSettingsComponent, { width: '400px', data: this.graphSettings, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => { this.graphSettings = result; });
   }
 }

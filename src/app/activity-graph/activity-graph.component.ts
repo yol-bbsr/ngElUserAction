@@ -16,10 +16,14 @@ export class ActivityGraphComponent implements OnInit, OnDestroy {
   private transactionModel: TransactionDetails;
   private d3: D3;
   private chartContainer: Selection<SVGSVGElement, any, null, undefined>;
+  private stepChartContainer: Selection<SVGSVGElement, any, null, undefined>;
   private chartRef: ChartProperties;
+  private stepChartRef: ChartProperties;
+  public displayStep = false;
   @ViewChild('graphcontainer') el: ElementRef;
+  @ViewChild('stepgraphcontainer') step: ElementRef;
 
-  constructor(private renderrer: Renderer2, element: ElementRef, d3Service: D3Service) {
+  constructor(private renderrer: Renderer2, d3Service: D3Service) {
     this.d3 = d3Service.getD3();
   }
 
@@ -28,22 +32,24 @@ export class ActivityGraphComponent implements OnInit, OnDestroy {
     if (this.el !== null) {
       d3ParentElement = this.d3.select(this.el.nativeElement);
       this.chartContainer = d3ParentElement.select<SVGSVGElement>('p');
-      this.chartContainer.attr('width', '100%').attr('height', 400);
-      this.chartRef = new ChartProperties(this.d3, this.chartContainer, this.el.nativeElement.offsetWidth);
+      this.chartRef = new ChartProperties(this.d3, this.chartContainer, this.el.nativeElement.offsetWidth, false);
+    }
+    if (this.step !== undefined) {
+      d3ParentElement = this.d3.select(this.step.nativeElement);
+      this.stepChartContainer = d3ParentElement.select<SVGSVGElement>('p');
+      this.stepChartRef = new ChartProperties(this.d3, this.stepChartContainer, this.step.nativeElement.offsetWidth, false);
     }
   }
 
   onSimulation($event) {
     this.clearChart();
-    this.chartContainer.datum($event.activites).call(ActivityChart.drawChart, this.chartRef);
-    this.chartContainer.append('rect')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('height', '100%')
-      .attr('width', '100%')
-      .style('stroke', 'black')
-      .style('fill', 'none')
-      .style('stroke-width', '5px');
+    this.chartContainer.attr('width', '100%');
+    this.chartContainer.datum($event.data.activites).call(ActivityChart.drawChart, this.chartRef);
+    if ($event.settings.isSimulateSteps) {
+      this.displayStep = true;
+      this.stepChartContainer.attr('width', '100%');
+      this.stepChartContainer.datum($event.data.setpActivities).call(ActivityChart.drawChart, this.stepChartRef);
+    }
   }
 
   ngOnDestroy() {
@@ -51,8 +57,12 @@ export class ActivityGraphComponent implements OnInit, OnDestroy {
   }
 
   private clearChart() {
+    this.displayStep = false;
     if (this.chartContainer.empty && !this.chartContainer.empty()) {
       this.chartContainer.selectAll('*').remove();
+    }
+    if (this.stepChartContainer !== undefined && this.stepChartContainer.empty && !this.stepChartContainer.empty()) {
+      this.stepChartContainer.selectAll('*').remove();
     }
   }
 }

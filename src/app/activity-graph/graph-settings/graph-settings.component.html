@@ -1,0 +1,32 @@
+<div>
+  <h2 mat-dialog-title class="dialog-title">
+    <i class="material-icons">settings</i> Setting </h2>
+  <hr>
+  <mat-dialog-content>
+    <section class="dialog-section" fxLayout="column" fxLayoutAlign="start start">
+      <mat-slide-toggle class="dialog-margin" color="primary" [(ngModel)]="settings.isOpenConfigPanel">
+        Always Open Configuration Section
+      </mat-slide-toggle>
+      <p class="info">This setting controls the state of confuguration section.</p>
+    </section>
+    <section class="dialog-section" fxLayout="column" fxLayoutAlign="start start">
+      <mat-slide-toggle class="dialog-margin" color="warn" [(ngModel)]="settings.isSimulateSteps">
+        Simulate Steps
+      </mat-slide-toggle>
+      <p class="info warn">
+        This setting controls the simulation of steps.<br/>
+        [Caution]: This is a resource-intensive task, so don't switch on unnecessarily.
+      </p>
+    </section>
+    <p class="info">
+      Updated settings will be taken effect after clicking on simulation button.<br/>
+      [NOTE]: All these settings are for the current session only!
+    </p>
+  </mat-dialog-content>
+  <hr>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+    <button mat-raised-button color="warn" (click)="onCloseCancel()">CANCEL</button>
+  </mat-dialog-actions>
+</div>

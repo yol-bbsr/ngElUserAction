@@ -1,0 +1,23 @@
+.dialog-title {
+    font-size: 30px;
+}
+
+.dialog-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 100px;
+    .warn {
+        color: #deb887;
+    }
+}
+
+.dialog-margin {
+    margin: 10px 10px 0 10px;
+}
+
+.info {
+    margin-top: 0px;
+    font-size: 12px;
+    color: darkgray;
+}

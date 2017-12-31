@@ -1,6 +1,7 @@
 import { state } from '@angular/animations';
 import * as moment from 'moment';
 import { D3, Selection } from 'd3-ng2-service';
+import { debuglog } from 'util';
 
 export class ChartProperties {
     // top margin -> title and legend
@@ -229,6 +230,16 @@ export class ActivityChart {
                 .attr('y1', 0)
                 .attr('y2', ChartProperties.dataHeight * dataset.length + ChartProperties.lineSpacing * dataset.length - 1 + ChartProperties.paddingBottom);
 
+            // create horizontal grid
+            svg.select('#g_axis').selectAll('line.horz_grid').data(dataset)
+                .enter()
+                .append('line')
+                .attr('class', 'horz_grid')
+                .attr('x1', 0)
+                .attr('x2', settings.width)
+                .attr('y1', (d, i) => ((ChartProperties.lineSpacing + ChartProperties.dataHeight) * i) + ChartProperties.lineSpacing + ChartProperties.dataHeight / 2)
+                .attr('y2', (d, i) => ((ChartProperties.lineSpacing + ChartProperties.dataHeight) * i) + ChartProperties.lineSpacing + ChartProperties.dataHeight / 2);
+
             // create x axis
             svg.select('#g_axis').append('g')
                 .attr('class', 'axis')
@@ -253,16 +264,18 @@ export class ActivityChart {
                 .attr('height', ChartProperties.dataHeight)
                 .attr('class', function (d) {
                     if (customCategories) {
-                        const series = dataset.find(serie => serie.disp_data.indexOf(d) >= 0);
-                        if (series && series.categories) {
-                            settings.d3ServiceRef.select(this).attr('fill', series.categories[d[1]].color);
-                            return '';
+                        if (d[1] === 'Pacing') {
+                            return 'pacing';
+                        } else if (d[1] === 'Think Time') {
+                            return 'thinktime';
+                        } else {
+                            return 'transaction';
                         }
                     } else {
                         if (d[1] === 1) {              // data available
-                            return 'rect_has_data';
+                            return 'transaction';
                         } else {                       // no data available
-                            return 'rect_has_no_data';
+                            return 'pacing';
                         }
                     }
                 })
@@ -274,14 +287,14 @@ export class ActivityChart {
                         let output: string;
                         if (customCategories) {
                             // custom categories: display category name
-                            output = '&nbsp;' + d[1] + '&nbsp;';
+                            output = '&nbsp;' + d[1] + '&nbsp;:&nbsp;';
                         } else {
                             if (d[1] === 1) {
                                 // transaction icon
-                                output = '<i class="material-icons tooltip_has_data">directions_run</i>';
+                                output = '<i class="material-icons tooltip_transaction">directions_run</i>';
                             } else {
                                 // pacing icon
-                                output = '<i class="material-icons tooltip_has_no_data">airline_seat_individual_suite</i>';
+                                output = '<i class="material-icons tooltip_pacing">airline_seat_individual_suite</i>';
                             }
                         }
                         if (isDateOnlyFormat) {
@@ -347,7 +360,7 @@ export class ActivityChart {
                     .attr('y', ChartProperties.paddingTopHeading)
                     .attr('height', 15)
                     .attr('width', 15)
-                    .attr('class', 'rect_has_data');
+                    .attr('class', 'transaction');
 
                 legend.append('text')
                     .attr('x', settings.width + ChartProperties.margin.right - 150 + 20)
@@ -360,7 +373,7 @@ export class ActivityChart {
                     .attr('y', ChartProperties.paddingTopHeading + 17)
                     .attr('height', 15)
                     .attr('width', 15)
-                    .attr('class', 'rect_has_no_data');
+                    .attr('class', 'pacing');
 
                 legend.append('text')
                     .attr('x', settings.width + ChartProperties.margin.right - 150 + 20)

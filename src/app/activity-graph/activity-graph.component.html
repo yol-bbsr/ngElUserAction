@@ -1,6 +1,14 @@
 <app-user-configuration (simulateEvent)="onSimulation($event)"></app-user-configuration>
 <mat-card>
+  <mat-card-title>Transactions Wise Activity</mat-card-title>
   <div #graphcontainer>
+    <p></p>
+  </div>
+  <mat-card-footer *ngIf="displayStep"><hr/></mat-card-footer>
+</mat-card>
+<mat-card>
+  <mat-card-title *ngIf="displayStep">Steps Wise Activity</mat-card-title>
+  <div #stepgraphcontainer>
     <p></p>
   </div>
 </mat-card>
